@@ -1,0 +1,48 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', monospace;
+
+  --color-board: #070b0a;        /* PCB substrate */
+  --color-board-2: #0c1311;
+  --color-trace: #1b2b26;        /* copper trace (dim) */
+  --color-signal: #34d399;       /* primary: CS / signal green */
+  --color-copper: #f59e0b;       /* secondary: electronics / copper */
+  --color-cyan: #22d3ee;
+
+  --animate-blink: blink 1s step-end infinite;
+  --animate-pulse-slow: pulse 4s ease-in-out infinite;
+
+  @keyframes blink {
+    50% { opacity: 0; }
+  }
+}
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body {
+    @apply bg-board text-zinc-300 font-sans antialiased;
+  }
+  ::selection { @apply bg-signal/30 text-white; }
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { @apply bg-board; }
+  ::-webkit-scrollbar-thumb { @apply bg-trace rounded; }
+}
+
+@utility card {
+  @apply relative rounded-xl border border-trace bg-board-2/70 backdrop-blur-sm transition-all duration-300;
+  &:hover { @apply border-signal/40; }
+}
+@utility chip {
+  @apply inline-flex items-center rounded border border-trace bg-board px-2 py-0.5 font-mono text-xs text-zinc-400;
+}
+@utility btn {
+  @apply inline-flex items-center gap-2 rounded-md px-4 py-2 font-mono text-sm transition-all;
+}
+@utility btn-primary {
+  @apply btn bg-signal text-board hover:shadow-[0_0_20px_var(--color-signal)];
+}
+@utility btn-ghost {
+  @apply btn border border-trace text-zinc-300 hover:border-signal hover:text-signal;
+}
